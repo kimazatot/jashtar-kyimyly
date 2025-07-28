@@ -6,7 +6,7 @@ from _common.choices.content import EventStatus
 class Events(models.Model):
     title = models.CharField(max_length=99, verbose_name='Название мероприятия')
     description = models.TextField(verbose_name='Описание мероприятия')
-
+    slug = models.SlugField(max_length=255, unique=True, blank=True)
     date = models.DateField(verbose_name="Дата")
     event_status = models.CharField(max_length=255, verbose_name='Статус мероприятия', choices=EventStatus.choices)
 
@@ -31,6 +31,7 @@ class EventImage(models.Model):
 class Projects(models.Model):
     title = models.CharField(max_length=155, verbose_name='Название проектв')
     description = models.TextField(verbose_name='Описание проекта')
+    slug = models.SlugField(max_length=255, unique=True, blank=True)
 
 
     class Meta:
