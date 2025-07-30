@@ -15,6 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+<<<<<<< HEAD
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -23,6 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-287a%ie-w@c1xu5$8^3ek4h7vo@sl54p)ev9of!36_2dnj7pa_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+=======
+SECRET_KEY = 'django-insecure-287a%ie-w@c1xu5$8^3ek4h7vo@sl54p)ev9of!36_2dnj7pa_'
+
+>>>>>>> dev_ade
 DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -30,6 +35,21 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+<<<<<<< HEAD
+=======
+CUSTOM_APPS = [
+    'content',
+    'home',
+    'support'
+]
+
+THIRD_PARTY_APPS = [
+    'rest_framework',
+    'drf_spectacular',
+]
+
+
+>>>>>>> dev_ade
 INSTALLED_APPS = [
     'jazzmin',
     'django.contrib.admin',
@@ -38,7 +58,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     'content',
+=======
+
+    *CUSTOM_APPS,
+    *THIRD_PARTY_APPS
+>>>>>>> dev_ade
 ]
 
 MIDDLEWARE = [
