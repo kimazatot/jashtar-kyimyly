@@ -86,6 +86,16 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+STATIC_URL = 'back_static/'
+STATIC_ROOT = BASE_DIR / STATIC_URL
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+    BASE_DIR / 'locale_static',
+]
+
+MEDIA_URL = '/back_media/'
+MEDIA_ROOT = BASE_DIR / 'back_media'
+
 
 LANGUAGE_CODE = 'ru'
 LANGUAGES = (

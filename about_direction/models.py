@@ -2,8 +2,8 @@ from django.db import models
 from django.core.validators import FileExtensionValidator
 
 class History(models.Model):
-    title = models.CharField(max_length=155, verbose_name='')
-    description = models.TextField()
+    title = models.CharField(max_length=155, verbose_name='Заголовок')
+    description = models.TextField(verbose_name='Описание')
     image = models.ImageField(upload_to='images/', verbose_name='Изображение')
 
     def __str__(self):
@@ -15,8 +15,8 @@ class History(models.Model):
 
 
 class Goals(models.Model):
-    title = models.CharField(max_length=155)
-    description = models.TextField()
+    title = models.CharField(max_length=155, verbose_name='Заголовок')
+    description = models.TextField(verbose_name='Описание')
     image = models.ImageField(upload_to='images/', verbose_name='Изображение')
 
     def __str__(self):
@@ -59,8 +59,8 @@ class Management(models.Model):
         validators=[FileExtensionValidator(allowed_extensions=['jpeg', 'png', 'jpg'])],
         help_text="Загружайте только изображения в формате .jpeg, .png или .jpg"
     )
-    first_name = models.CharField(max_length=155)
-    last_name = models.CharField(max_length=155)
+    first_name = models.CharField(max_length=155, verbose_name='Имя')
+    last_name = models.CharField(max_length=155, verbose_name='Фамилия')
 
     def __str__(self):
         return f'{self.first_name}, {self.last_name}'

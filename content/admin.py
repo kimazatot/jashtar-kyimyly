@@ -15,6 +15,7 @@ class ProjectImageInline(admin.TabularInline):
 class EventsAdmin(admin.ModelAdmin):
     list_display = ('title', 'description', 'date')
     inlines = [EventImageInline]
+    exclude = ('slug',)
 
 @admin.register(Projects)
 class ProjectsAdmin(admin.ModelAdmin):
