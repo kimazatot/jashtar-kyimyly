@@ -65,3 +65,34 @@ class ActivityDirection(models.Model):
     class Meta:
         verbose_name = 'Направление деятельности'
         verbose_name_plural = 'Направление деятельности'
+
+
+class Departments(models.Model):
+    title = models.CharField(max_length=255, verbose_name='Название отделения')
+    description = models.TextField() #RichText
+    address = models.CharField(max_length=99, verbose_name='Адрес отделения')
+    image = models.ImageField(
+        upload_to='experts/',
+        verbose_name="Изображение",
+        validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg', 'jpg'])],
+        help_text="Загружайте только изображения в формате .png или .jpg или .jpeg"
+    )
+
+    def __str__(self):
+        return f'{self.title}'
+
+    class Meta:
+        verbose_name = 'Региональные отделения'
+        verbose_name_plural = 'Региональные отделения'
+
+
+class Results(models.Model):
+    title = models.TextField(verbose_name='Заголовок')
+    description = models.TextField(verbose_name='Описание') #RichText
+
+    def __str__(self):
+        return f'{self.title}'
+
+    class Meta:
+        verbose_name = 'Результаты'
+        verbose_name_plural = 'Результаты'

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Events, Projects, EventImage, ProjectsImage, ActivityDirection
+from .models import Events, Projects, EventImage, ProjectsImage, ActivityDirection, Departments, Results
 
 class EventImageInline(admin.TabularInline):
     model = EventImage
@@ -26,4 +26,13 @@ class ProjectsAdmin(admin.ModelAdmin):
 
 @admin.register(ActivityDirection)
 class ActivityDirectionAdin(admin.ModelAdmin):
+    list_display = ('title', 'description')
+
+@admin.register(Departments)
+class DepartmentsAdmin(admin.ModelAdmin):
+    list_display = ('title', 'description', 'address', 'image')
+
+
+@admin.register(Results)
+class ResultsAdmin(admin.ModelAdmin):
     list_display = ('title', 'description')

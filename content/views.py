@@ -1,7 +1,7 @@
 from rest_framework import viewsets, generics, status
 from .models import *
 from drf_spectacular.utils import extend_schema
-from .serializers import EventsSerializer, ProjectsSerializer, ActivityDirectionSerializer
+from .serializers import EventsSerializer, ProjectsSerializer, ActivityDirectionSerializer, DepartmentsListSerializers, ResultsListSerializers
 
 
 @extend_schema(tags=['content'])
@@ -31,3 +31,22 @@ class ProjectsDetail(generics.RetrieveAPIView):
 class ActivityDirectionList(generics.ListAPIView):
     queryset = ActivityDirection.objects.all()
     serializer_class = ActivityDirectionSerializer
+
+class DepartmentsDetailAPIView(generics.RetrieveAPIView):
+    queryset = Departments.objects.all()
+    serializer_class = DepartmentsListSerializers
+
+
+class DepartmentsListAPIView(generics.RetrieveAPIView):
+    queryset = Departments.objects.all()
+    serializer_class = DepartmentsListSerializers
+
+
+class ResultsDetailAPIView(generics.RetrieveAPIView):
+    queryset = Results.objects.all()
+    serializer_class = ResultsListSerializers
+
+
+class ResultsListAPIView(generics.RetrieveAPIView):
+    queryset = Results.objects.all()
+    serializer_class = ResultsListSerializers
