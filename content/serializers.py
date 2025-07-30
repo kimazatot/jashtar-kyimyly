@@ -1,31 +1,12 @@
-from .models import *
-from rest_framework import serializers
-from .models import Events, Projects, EventImage, ProjectsImage
 from drf_spectacular.utils import extend_schema_field
+from rest_framework import serializers
+from .models import Events, Projects, EventImage, ProjectsImage, ActivityDirection
 
 
-class HistorySerializers(serializers.ModelSerializer):
+class ActivityDirectionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = History
-        fields = ['title', 'description', 'image']
-
-
-class GoalsListSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = Goals
-        fields = ['title', 'description', 'image']
-
-
-class LegislativeListSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = Legislative
-        fields = ['law', 'file', 'image']
-
-
-class ManagementListSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = Management
-        fields = ['first_name', 'last_name']
+        model = ActivityDirection
+        fields = 'title', 'description'
 
 class ProjectImageSerializer(serializers.ModelSerializer):
     class Meta:

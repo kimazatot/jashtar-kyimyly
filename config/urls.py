@@ -19,10 +19,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-<<<<<<< HEAD
-    path('', include('content.urls')),
-=======
-
-    path('api/content/', include('content.urls'))
->>>>>>> dev_ade
+    path('api/content/', include('content.urls')),
+    path('api/about_direction/', include('about_direction.urls'))
 ]
