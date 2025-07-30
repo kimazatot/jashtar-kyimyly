@@ -20,4 +20,10 @@ urlpatterns = [
 
     path('management/', ManagementListAPIView.as_view(), name='management_list'),
     path('management/<int:pk>/', ManagementDetailAPIView.as_view(), name='management_detail'),
+
+    path('departments/', DepartmentsListAPIView.as_view(), name='departments_list'),
+    path('departments/<int:pk>/', DepartmentsDetailAPIView.as_view(), name='departments_detail'),
+
+    path('results/', ResultsListAPIView.as_view(), name='results_list'),
+    path('results/<int:pk>/', ResultsDetailAPIView.as_view(), name='results_detail')
 ]

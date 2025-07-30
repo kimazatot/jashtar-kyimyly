@@ -43,3 +43,23 @@ class ManagementListAPIView(generics.ListAPIView):
 class ManagementDetailAPIView(generics.RetrieveAPIView):
     queryset = Management.objects.all()
     serializer_class = ManagementListSerializers
+
+
+class DepartmentsDetailAPIView(generics.RetrieveAPIView):
+    queryset = Departments.objects.all()
+    serializer_class = DepartmentsListSerializers
+
+
+class DepartmentsListAPIView(generics.RetrieveAPIView):
+    queryset = Departments.objects.all()
+    serializer_class = DepartmentsListSerializers
+
+
+class ResultsDetailAPIView(generics.RetrieveAPIView):
+    queryset = Results.objects.all()
+    serializer_class = ResultsListSerializers
+
+
+class ResultsListAPIView(generics.RetrieveAPIView):
+    queryset = Results.objects.all()
+    serializer_class = ResultsListSerializers

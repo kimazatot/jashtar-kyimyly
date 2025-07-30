@@ -20,3 +20,13 @@ class LegislativeAdmin(admin.ModelAdmin):
 @admin.register(Management)
 class ManagementAdmin(admin.ModelAdmin):
     list_display = ('image', 'first_name', 'last_name')
+
+
+@admin.register(Departments)
+class DepartmentsAdmin(admin.ModelAdmin):
+    list_display = ('title', 'description', 'address', 'image')
+
+
+@admin.register(Results)
+class ResultsAdmin(admin.ModelAdmin):
+    list_display = ('title', 'description')

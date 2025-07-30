@@ -25,3 +25,14 @@ class ManagementListSerializers(serializers.ModelSerializer):
         model = Management
         fields = ['first_name', 'last_name']
 
+
+class DepartmentsListSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Departments
+        fields = ['title', 'description', 'address', 'image']
+
+
+class ResultsListSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Results
+        fields = ['title', 'description']
