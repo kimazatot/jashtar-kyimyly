@@ -1,7 +1,7 @@
-from rest_framework import viewsets
+from rest_framework import generics
 from .models import ActivityDirection
 from .serializers import ActivityDirectionSerializer
 
-class ActivityDirectionViewSet(viewsets.ModelViewSet):
+class ActivityDirectionListAPIView(generics.ListAPIView):
     queryset = ActivityDirection.objects.all()
     serializer_class = ActivityDirectionSerializer

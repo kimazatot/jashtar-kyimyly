@@ -6,3 +6,6 @@ class ActivityDirection(models.Model):
 
     def __str__(self):
         return self.title
+    class Meta:
+        verbose_name = "Направление деятельности"
+        verbose_name_plural = "Направления деятельности"

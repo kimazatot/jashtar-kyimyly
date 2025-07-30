@@ -1,7 +1,6 @@
-from rest_framework.routers import DefaultRouter
-from .views import ActivityDirectionViewSet
+from django.urls import path
+from .views import ActivityDirectionListAPIView  # Исправлено на правильное имя класса
 
-router = DefaultRouter()
-router.register(r'activity-directions', ActivityDirectionViewSet, basename='activitydirection')
-
-urlpatterns = router.urls
+urlpatterns = [
+    path('directions/', ActivityDirectionListAPIView.as_view(), name='activity-direction-list'),
+]
