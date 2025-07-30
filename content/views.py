@@ -1,6 +1,9 @@
 from .serializers import *
 from rest_framework import viewsets, generics, status
 from .models import *
+from .serializers import EventsSerializer, ProjectsSerializer
+from drf_spectacular.utils import extend_schema
+
 
 
 class HistoryListAPIView(generics.ListAPIView):
@@ -43,13 +46,6 @@ class ManagementListAPIView(generics.ListAPIView):
 class ManagementDetailAPIView(generics.RetrieveAPIView):
     queryset = Management.objects.all()
     serializer_class = ManagementListSerializers
-=======
-from django.shortcuts import render
-from rest_framework import generics, status, permissions
-from rest_framework.generics import ListAPIView
-from .models import Events, Projects
-from .serializers import EventsSerializer, ProjectsSerializer
-from drf_spectacular.utils import extend_schema
 
 
 @extend_schema(tags=['content'])
