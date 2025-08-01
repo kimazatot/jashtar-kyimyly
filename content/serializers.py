@@ -1,8 +1,3 @@
-
-from rest_framework import serializers
-from .models import ActivityDirection
-
-from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from .models import Events, Projects, EventImage, ProjectsImage, ActivityDirection, Departments, Results
 
