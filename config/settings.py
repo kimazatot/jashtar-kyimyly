@@ -8,7 +8,7 @@ SECRET_KEY = 'django-insecure-287a%ie-w@c1xu5$8^3ek4h7vo@sl54p)ev9of!36_2dnj7pa_
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 CUSTOM_APPS = [
     'content',
@@ -31,12 +31,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'about_direction',
     'content',
-    'rest_framework',
 
+    # 'support',
+    'about_direction',
 
+    'account',
 ]
 
 MIDDLEWARE = [
@@ -91,9 +91,11 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+AUTH_USER_MODEL = 'account.User'
 
 STATIC_URL = 'back_static/'
 STATIC_ROOT = BASE_DIR / STATIC_URL
+
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
     BASE_DIR / 'locale_static',
@@ -115,18 +117,13 @@ USE_I18N = True
 USE_TZ = True
 
 
-
-
-
-
-STATIC_URL = 'static/'
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.ScopedRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'register': '5/hour',  # Максимум 5 регистраций в час
+    }
 }

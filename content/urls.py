@@ -1,13 +1,11 @@
 
 from django.urls import path, include
-from rest_framework import routers
+
 from .views import ProjectList, EventList, EventsDetail, ProjectsDetail, ActivityDirectionList, DepartmentsListAPIView,DepartmentsDetailAPIView, ResultsListAPIView, ResultsDetailAPIView
 
-router =routers.DefaultRouter()
 
 
 urlpatterns = [
-    path('', include(router.urls)),
 
     path('events/', EventList.as_view(), name='events-list'),
     path('events/<int:pk>/', EventsDetail.as_view(), name='events-detail'),
