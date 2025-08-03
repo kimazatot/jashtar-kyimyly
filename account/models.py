@@ -5,6 +5,7 @@ from datetime import timedelta
 from django.db.models import DateTimeField
 from django.utils import timezone
 
+
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
@@ -19,12 +20,7 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, verbose_name='email')
     is_email_verified = models.BooleanField(default=False, verbose_name=' прошёл ли пользователь верификацию email')
-    fio = models.CharField('ФИО',max_length=100,validators=[RegexValidator(
-                regex='[А-Яа-яЁё\s]{3,}',
-                message='ФИО должно содержать только кириллицу и быть не короче 3 символов.'
-            )
-        ]
-    )
+    fio = models.CharField('ФИО',max_length=100,validators=[RegexValidator(regex='[А-Яа-яЁё\s]{3,}',message='ФИО должно содержать только кириллицу и быть не короче 3 символов.')])
     is_active = models.BooleanField(verbose_name='Активен', default=False)
     date_joined = models.DateTimeField( verbose_name='Дата регистрации', auto_now_add=True)
     USERNAME_FIELD = 'email'
@@ -52,7 +48,7 @@ class SMSVerification(models.Model):
 
     def is_code_valid(self):
         return not self.is_used and timezone.now() < self.created_at + timedelta(minutes=3)
-        # Не больше 3 минут проверка
+
     class Meta:
         indexes = [
             models.Index(fields=['email', 'code']),
