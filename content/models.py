@@ -4,6 +4,7 @@ from PIL import Image
 from django.core.files.base import ContentFile
 from django.core.validators import FileExtensionValidator
 from django.db import models
+from django.core.validators import FileExtensionValidator
 from _common.choices.content import EventStatus
 
 
@@ -17,6 +18,9 @@ class Events(models.Model):
         verbose_name='Статус мероприятия',
         choices=EventStatus.choices
     )
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         verbose_name = 'Мероприятие'
@@ -45,6 +49,9 @@ class Projects(models.Model):
     title = models.CharField(max_length=155, verbose_name='Название проекта')
     description = models.TextField(verbose_name='Описание проекта')
     slug = models.SlugField(max_length=255, unique=True, blank=True)
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         verbose_name = 'Проект'
@@ -107,3 +114,43 @@ class GalleryImage(models.Model):
     class Meta:
         verbose_name = 'Фотография галереи'
         verbose_name_plural = 'Фотографии галереи'
+
+
+class ActivityDirection(models.Model):
+    title = models.CharField("Название направления", max_length=255,  blank=False,null=False)
+    description = models.TextField('Описание деятельности', blank=False, null=False)
+
+    class Meta:
+        verbose_name = 'Направление деятельности'
+        verbose_name_plural = 'Направление деятельности'
+
+
+class Departments(models.Model):
+    title = models.CharField(max_length=255, verbose_name='Название отделения')
+    description = models.TextField() #RichText
+    address = models.CharField(max_length=99, verbose_name='Адрес отделения')
+    image = models.ImageField(
+        upload_to='experts/',
+        verbose_name="Изображение",
+        validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg', 'jpg'])],
+        help_text="Загружайте только изображения в формате .png или .jpg или .jpeg"
+    )
+
+    def __str__(self):
+        return f'{self.title}'
+
+    class Meta:
+        verbose_name = 'Региональные отделения'
+        verbose_name_plural = 'Региональные отделения'
+
+
+class Results(models.Model):
+    title = models.TextField(verbose_name='Заголовок')
+    description = models.TextField(verbose_name='Описание') #RichText
+
+    def __str__(self):
+        return f'{self.title}'
+
+    class Meta:
+        verbose_name = 'Результаты'
+        verbose_name_plural = 'Результаты'

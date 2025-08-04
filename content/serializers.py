@@ -5,7 +5,15 @@ from .models import Gallery, GalleryImage
 from PIL import Image
 from io import BytesIO
 from django.core.files.base import ContentFile
+from drf_spectacular.utils import extend_schema_field
+from rest_framework import serializers
+from .models import Events, Projects, EventImage, ProjectsImage, ActivityDirection, Departments, Results
 
+
+class ActivityDirectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ActivityDirection
+        fields = 'title', 'description'
 
 class ProjectImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -111,3 +119,14 @@ class GallerySerializer(serializers.ModelSerializer):
             serializer.is_valid(raise_exception=True)
             serializer.save(gallery=gallery)
         return gallery
+
+class DepartmentsListSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Departments
+        fields = ['title', 'description', 'address', 'image']
+
+
+class ResultsListSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Results
+        fields = ['title', 'description']
