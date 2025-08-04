@@ -26,8 +26,7 @@ ALLOWED_HOSTS = []
 
 CUSTOM_APPS = [
     'content',
-    'home',
-    'support'
+    'about_direction',
 ]
 
 THIRD_PARTY_APPS = [
