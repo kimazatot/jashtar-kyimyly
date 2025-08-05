@@ -18,11 +18,6 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 
-print("EMAIL_HOST_USER:", EMAIL_HOST_USER)
-print("EMAIL_HOST_PASSWORD:", EMAIL_HOST_PASSWORD)
-
-
-
 
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
@@ -62,8 +57,9 @@ DEBUG = True
 
 CUSTOM_APPS = [
     'content',
-    'home',
-    'support',
+    # 'home',  вызывает ошибку, так как нет такого приложения
+
+    # 'support',
     'about_direction',
 ]
 
@@ -81,11 +77,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'content',
-    'about_direction',
+
+    *THIRD_PARTY_APPS,
+    *CUSTOM_APPS,
 
     'account',
-   'rest_framework',
+
 ]
 
 MIDDLEWARE = [
