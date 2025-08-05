@@ -18,9 +18,11 @@ class UserManager(BaseUserManager):
         return user
 
 class User(AbstractBaseUser, PermissionsMixin):
+    fio = models.CharField('ФИО', max_length=100, validators=[RegexValidator(regex='[А-Яа-яЁё\s]{3,}',
+                                                                             message='ФИО должно содержать только кириллицу и быть не короче 3 символов.')])
     email = models.EmailField(unique=True, verbose_name='email')
     is_email_verified = models.BooleanField(default=False, verbose_name=' прошёл ли пользователь верификацию email')
-    fio = models.CharField('ФИО',max_length=100,validators=[RegexValidator(regex='[А-Яа-яЁё\s]{3,}',message='ФИО должно содержать только кириллицу и быть не короче 3 символов.')])
+
     is_active = models.BooleanField(verbose_name='Активен', default=False)
     date_joined = models.DateTimeField( verbose_name='Дата регистрации', auto_now_add=True)
     USERNAME_FIELD = 'email'
@@ -36,11 +38,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 class SMSVerification(models.Model):
-    objects = None
     email = models.EmailField(verbose_name='Email')
     code = models.CharField(max_length=4, verbose_name='Код')
     is_used = models.BooleanField(default=False, verbose_name='Использован ли код?')
-    created_at: DateTimeField = models.DateTimeField(auto_now_add=True, verbose_name='Время создания кода')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
+    class Meta:
+        ordering = ['-created_at']
 
 
     def __str__(self):

@@ -9,10 +9,14 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['email', 'fio', 'password', 'password2']
+        fields = [ 'fio','email', 'password', 'password2', 'is_active']
+
+    def validate_email(self, value):
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError("Пользователь с таким email уже зарегистрирован")
+        return value
 
     def validate_password(self, value):
-        # Проверка сложности: минимум одна цифра и одна заглавная буква
         if not any(c.isdigit() for c in value) or not any(c.isupper() for c in value):
             raise serializers.ValidationError('Пароль должен содержать хотя бы одну цифру и одну заглавную букву.')
         validate_password(value)
@@ -28,6 +32,10 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return User.objects.create_user(**validated_data)
 
 
-class SMSVerificationSerializer(serializers.Serializer):
+class SMSVerificationSerializer(serializers.ModelSerializer):
     email = serializers.EmailField()
     code = serializers.CharField(max_length=4)
+
+    class Meta:
+        model = SMSVerification
+        fields = ['email', 'code']

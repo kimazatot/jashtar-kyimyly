@@ -1,14 +1,9 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
-from django.core.cache import cache
 from django.core.mail import send_mail
 from django.conf import settings
-from django.utils import timezone
-from datetime import timedelta
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.core.exceptions import ObjectDoesNotExist
 import random
-
 from .models import User, SMSVerification
 from .serializers import UserRegisterSerializer, SMSVerificationSerializer
 
@@ -19,23 +14,32 @@ class RegisterView(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+
         email = serializer.validated_data['email']
+        fio = serializer.validated_data['fio']
 
 
         code = str(random.randint(1000, 9999))
         SMSVerification.objects.create(email=email, code=code)
 
+        # Отправляем письмо
         send_mail(
             subject='Код подтверждения',
-            message=f'Ваш код: {code}. Он действителен 3 минуты.',
+            message=f'Твой код для регистрации: {code}. Он действителен 1 минуты.',
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[email]
         )
 
-        cache.set(f'limit_{email}', True, timeout=300)
+        user, created = User.objects.get_or_create(
+            email=email,
+            defaults={
+                'fio': fio,
+                'is_active': False,
+                'is_email_verified': False
+            }
+        )
 
         return Response({'detail': 'Код отправлен на email', 'code_ttl': 180}, status=status.HTTP_201_CREATED)
-
 
 class VerifyEmailView(generics.GenericAPIView):
     serializer_class = SMSVerificationSerializer
@@ -47,13 +51,18 @@ class VerifyEmailView(generics.GenericAPIView):
         email = serializer.validated_data['email']
         code = serializer.validated_data['code']
 
+        verification = SMSVerification.objects.filter(
+            email=email,
+            code=code,
+            is_used=False
+        ).order_by('-created_at').first()
+
+
+        if not verification or not verification.is_code_valid():
+            return Response({'error': 'Код недействителен или истёк'}, status=status.HTTP_400_BAD_REQUEST)
+
+
         try:
-            verification = SMSVerification.objects.get(
-                email=email,
-                code=code,
-                is_used=False,
-                created_at__gte=timezone.now() - timedelta(minutes=3)
-            )
             user = User.objects.get(email=email)
             user.is_active = True
             user.is_email_verified = True
@@ -62,6 +71,7 @@ class VerifyEmailView(generics.GenericAPIView):
             verification.is_used = True
             verification.save()
 
+            # Токены
             refresh = RefreshToken.for_user(user)
 
             return Response({
@@ -72,5 +82,5 @@ class VerifyEmailView(generics.GenericAPIView):
                 'email': user.email
             }, status=status.HTTP_200_OK)
 
-        except ObjectDoesNotExist:
-            return Response({'error': 'Код недействителен или истёк'}, status=status.HTTP_400_BAD_REQUEST)
+        except User.DoesNotExist:
+            return Response({'error': 'Пользователь не найден'}, status=status.HTTP_404_NOT_FOUND)

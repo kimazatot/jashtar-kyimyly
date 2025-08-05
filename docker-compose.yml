@@ -2,9 +2,9 @@ services:
   db:
     image: postgres:latest
     environment:
-      POSTGRES_DB: jashtar-kyimyly
-      POSTGRES_USER: jashtar-kyimyly
-      POSTGRES_PASSWORD: jashtar-kyimyly
+      POSTGRES_DB: jashtar_kyimyly
+      POSTGRES_USER: jashtar_kyimyly
+      POSTGRES_PASSWORD: jashtar_kyimyly
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
