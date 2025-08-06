@@ -1,6 +1,7 @@
-from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
-from .models import Events, Projects, EventImage, ProjectsImage, ActivityDirection, Departments, Results
+from .models import (Events, Projects, EventImage,
+                     ProjectsImage, ActivityDirection,
+                     Departments, Results, News)
 
 
 class ActivityDirectionSerializer(serializers.ModelSerializer):
@@ -74,3 +75,9 @@ class ResultsListSerializers(serializers.ModelSerializer):
     class Meta:
         model = Results
         fields = ['title', 'description']
+
+
+class NewsListSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = News
+        fields = ['title', 'description', 'date']

@@ -10,8 +10,6 @@ ALLOWED_HOSTS = []
 
 CUSTOM_APPS = [
     'content',
-    'home',
-    'support',
     'about_direction',
 ]
 
@@ -22,6 +20,7 @@ THIRD_PARTY_APPS = [
 
 
 INSTALLED_APPS = [
+    'modeltranslation',
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -36,6 +35,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -97,16 +97,25 @@ MEDIA_URL = '/back_media/'
 MEDIA_ROOT = BASE_DIR / 'back_media'
 
 
-LANGUAGE_CODE = 'ru'
+
 LANGUAGES = (
+    ('en', 'English'),
     ('ru', 'Russian'),
+    ('ky', 'Kyrgyzstan')
+
 )
 
-TIME_ZONE = 'UTC'
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
+MODELTRANSLATION_LANGUAGES = ('en', 'ru', 'ky')
+
+TIME_ZONE = 'Asia/Bishkek'
 
 USE_I18N = True
 
 USE_TZ = True
+
+USE_L10N = True
+
 
 STATIC_URL = 'static/'
 

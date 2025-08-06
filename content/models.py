@@ -96,3 +96,15 @@ class Results(models.Model):
     class Meta:
         verbose_name = 'Результаты'
         verbose_name_plural = 'Результаты'
+
+
+class News(models.Model):
+    image = models.ImageField(
+        upload_to='experts/',
+        verbose_name="Изображение",
+        validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg', 'jpg'])],
+        help_text="Загружайте только изображения в формате .png или .jpg или .jpeg"
+    )
+    title = models.CharField(max_length=99, verbose_name='Название')
+    description = models.TextField(verbose_name='Описание')
+    date = models.ImageField()
