@@ -1,4 +1,12 @@
 from rest_framework import serializers
+from .models import Events, Projects, EventImage, ProjectsImage, GalleryImage, Gallery
+from drf_spectacular.utils import extend_schema_field
+from .models import Gallery, GalleryImage
+from PIL import Image
+from io import BytesIO
+from django.core.files.base import ContentFile
+from drf_spectacular.utils import extend_schema_field
+from rest_framework import serializers
 from .models import (Events, Projects, EventImage,
                      ProjectsImage, ActivityDirection,
                      Departments, Results, News)
@@ -65,6 +73,55 @@ class EventsSerializer(serializers.ModelSerializer):
             EventImage.objects.create(event=event, image=image)
         return event
 
+
+ALLOWED_FORMATS = ['JPEG', 'JPG', 'PNG']
+
+class GalleryImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GalleryImage
+        fields = ('id', 'image')
+
+    def validate_image(self, image):
+        img = Image.open(image)
+        if img.format.upper() not in ALLOWED_FORMATS:
+            raise serializers.ValidationError('Допустимые форматы: JPG, JPEG, PNG')
+        return image
+
+    def compress_image(self, image):
+        img = Image.open(image)
+        output_io = BytesIO()
+        img.save(output_io, format='JPEG', quality=70)  # Понижаем качество для сжатия
+        return ContentFile(output_io.getvalue(), image.name)
+
+    def create(self, validated_data):
+        image = validated_data.get('image')
+        compressed = self.compress_image(image)
+        validated_data['image'] = compressed
+        return super().create(validated_data)
+
+
+class GallerySerializer(serializers.ModelSerializer):
+    images = GalleryImageSerializer(many=True, required=False)
+
+    class Meta:
+        model = Gallery
+        fields = ('id', 'title', 'images')
+
+    def create(self, validated_data):
+        images_data = self.initial_data.getlist('images')
+        if len(images_data) > 15:
+            raise serializers.ValidationError("Можно загрузить максимум 15 изображений.")
+
+        gallery = Gallery.objects.create(
+            title=validated_data['title']
+        )
+
+        for image in images_data:
+            serializer = GalleryImageSerializer(data={'image': image})
+            serializer.is_valid(raise_exception=True)
+            serializer.save(gallery=gallery)
+        return gallery
+
 class DepartmentsListSerializers(serializers.ModelSerializer):
     class Meta:
         model = Departments
@@ -81,3 +138,4 @@ class NewsListSerializers(serializers.ModelSerializer):
     class Meta:
         model = News
         fields = ['title', 'description', 'date']
+

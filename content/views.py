@@ -1,3 +1,8 @@
+from django.shortcuts import render
+from rest_framework import generics, status, permissions
+from rest_framework.generics import ListAPIView
+from .models import Events, Projects, Gallery
+from .serializers import EventsSerializer, ProjectsSerializer, GallerySerializer
 from rest_framework import viewsets, generics, status
 from .models import *
 from drf_spectacular.utils import extend_schema
@@ -32,6 +37,16 @@ class ProjectsDetail(generics.RetrieveAPIView):
     queryset = Projects.objects.all()
     serializer_class = ProjectsSerializer
 
+@extend_schema(tags=['content'])
+class GalleryList(generics.ListAPIView):
+    queryset = Gallery.objects.all()
+    serializer_class = GallerySerializer
+
+
+@extend_schema(tags=['content'])
+class GalleryDetail(generics.RetrieveAPIView):
+    queryset = Gallery.objects.all()
+    serializer_class = GallerySerializer
 
 class ActivityDirectionList(generics.ListAPIView):
     queryset = ActivityDirection.objects.all()
