@@ -29,6 +29,7 @@ class EventsAdmin(admin.ModelAdmin):
 class ProjectsAdmin(admin.ModelAdmin):
     list_display = ('title', 'description')
     inlines = [ProjectImageInline]
+    exclude = ('slug',)
 
 
 @admin.register(Gallery)
@@ -36,7 +37,7 @@ class GalleryAdmin(admin.ModelAdmin):
     list_display = ('title', 'date')
     inlines = [GalleryImageInline]
     exclude = ('slug',)
-    fields = ('title', 'description')
+    fields = ('title',)
 
 @admin.register(ActivityDirection)
 class ActivityDirectionAdin(admin.ModelAdmin):

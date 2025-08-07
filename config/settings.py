@@ -1,12 +1,17 @@
 from pathlib import Path
+from decouple import config
+from .jazzmin import JAZZMIN_SETTINGS, JAZZMIN_UI_TWEAKS
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = 'django-insecure-287a%ie-w@c1xu5$8^3ek4h7vo@sl54p)ev9of!36_2dnj7pa_'
-
+SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = True
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1']
 
-ALLOWED_HOSTS = []
+JAZZMIN_UI_TWEAKS = JAZZMIN_UI_TWEAKS
+JAZZMIN_SETTINGS = JAZZMIN_SETTINGS
+
 
 CUSTOM_APPS = [
     'content',
@@ -84,11 +89,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-STATIC_URL = 'back_static/'
-STATIC_ROOT = BASE_DIR / STATIC_URL
+STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'back_static'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
-    BASE_DIR / 'locale_static',
+    # BASE_DIR / 'locale_static',
 ]
 
 MEDIA_URL = '/back_media/'

@@ -1,0 +1,39 @@
+services:
+  web:
+    build: .
+    container_name: django-app
+    command: sh -c "python manage.py collectstatic --noinput && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/jashtar-kyimyly
+      - ./back_static:/jashtar-kyimyly/back_static
+      - ./sqlite_data:/app/sqlite_data
+    ports:
+      - "8000:8000"
+    networks:
+      - webnet
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings
+
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    volumes:
+      - ./etc/nginx.conf:/etc/nginx.conf
+      - ./back_static:/jashtar-kyimyly/back_static
+      - ./back_media:/jashtar-kyimyly/back_media
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - web
+    networks:
+      - webnet
+
+networks:
+  webnet:
+    driver: bridge
+
+volumes:
+  sqlite_data:
