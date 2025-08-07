@@ -90,7 +90,7 @@ class GalleryImageSerializer(serializers.ModelSerializer):
     def compress_image(self, image):
         img = Image.open(image)
         output_io = BytesIO()
-        img.save(output_io, format='JPEG', quality=70)  # Понижаем качество для сжатия
+        img.save(output_io, format='JPEG', quality=70)
         return ContentFile(output_io.getvalue(), image.name)
 
     def create(self, validated_data):
