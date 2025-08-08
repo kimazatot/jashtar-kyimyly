@@ -6,7 +6,12 @@ from .serializers import EventsSerializer, ProjectsSerializer, GallerySerializer
 from rest_framework import viewsets, generics, status
 from .models import *
 from drf_spectacular.utils import extend_schema
-from .serializers import EventsSerializer, ProjectsSerializer, ActivityDirectionSerializer, DepartmentsListSerializers, ResultsListSerializers
+from .serializers import (EventsSerializer,
+                          ProjectsSerializer,
+                          ActivityDirectionSerializer,
+                          DepartmentsListSerializers,
+                          ResultsListSerializers,
+                          NewsListSerializers)
 
 
 @extend_schema(tags=['content'])
@@ -65,3 +70,14 @@ class ResultsDetailAPIView(generics.RetrieveAPIView):
 class ResultsListAPIView(generics.RetrieveAPIView):
     queryset = Results.objects.all()
     serializer_class = ResultsListSerializers
+
+
+
+class NewsDetailAPIView(generics.RetrieveAPIView):
+    queryset = News.objects.all()
+    serializer_class = NewsListSerializers
+
+
+class NewsListAPIView(generics.RetrieveAPIView):
+    queryset = News.objects.all()
+    serializer_class = NewsListSerializers

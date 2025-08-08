@@ -7,7 +7,9 @@ from io import BytesIO
 from django.core.files.base import ContentFile
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
-from .models import Events, Projects, EventImage, ProjectsImage, ActivityDirection, Departments, Results
+from .models import (Events, Projects, EventImage,
+                     ProjectsImage, ActivityDirection,
+                     Departments, Results, News)
 
 
 class ActivityDirectionSerializer(serializers.ModelSerializer):
@@ -88,7 +90,7 @@ class GalleryImageSerializer(serializers.ModelSerializer):
     def compress_image(self, image):
         img = Image.open(image)
         output_io = BytesIO()
-        img.save(output_io, format='JPEG', quality=70)  # Понижаем качество для сжатия
+        img.save(output_io, format='JPEG', quality=70)
         return ContentFile(output_io.getvalue(), image.name)
 
     def create(self, validated_data):
@@ -130,3 +132,10 @@ class ResultsListSerializers(serializers.ModelSerializer):
     class Meta:
         model = Results
         fields = ['title', 'description']
+
+
+class NewsListSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = News
+        fields = ['title', 'description', 'date']
+

@@ -3,7 +3,9 @@ from .models import Gallery
 from .views import ProjectList, EventList, EventsDetail, ProjectsDetail, GalleryList, GalleryDetail
 from django.urls import path, include
 from rest_framework import routers
-from .views import ProjectList, EventList, EventsDetail, ProjectsDetail, ActivityDirectionList, DepartmentsListAPIView,DepartmentsDetailAPIView, ResultsListAPIView, ResultsDetailAPIView
+from .views import (ProjectList, EventList, EventsDetail, ProjectsDetail, ActivityDirectionList,
+                    DepartmentsListAPIView,DepartmentsDetailAPIView,
+                    ResultsListAPIView, ResultsDetailAPIView, NewsDetailAPIView, NewsListAPIView)
 
 router =routers.DefaultRouter()
 
@@ -25,5 +27,8 @@ urlpatterns = [
     path('departments/<int:pk>/', DepartmentsDetailAPIView.as_view(), name='departments_detail'),
 
     path('results/', ResultsListAPIView.as_view(), name='results_list'),
-    path('results/<int:pk>/', ResultsDetailAPIView.as_view(), name='results_detail')
+    path('results/<int:pk>/', ResultsDetailAPIView.as_view(), name='results_detail'),
+
+    path('news/', NewsListAPIView.as_view(), name='news_list'),
+    path('news/<int:pk>/', NewsDetailAPIView.as_view(), name='news_detail'),
 ]
