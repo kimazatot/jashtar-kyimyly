@@ -1,19 +1,27 @@
 version: '3'
 
 services:
-
   web:
     build: .
-    command: >
-      bash -c "./manage.py collectstatic --noinput && ./manage.py makemigrations && ./manage.py migrate && gunicorn -b 0.0.0.0:8000 jashtar-kyimyly.wsgi:application"
+    container_name: django-app
+    command:
+      sh -c "python manage.py collectstatic --noinput &&
+             python manage.py makemigrations &&
+             python manage.py migrate &&
+             gunicorn jashtar-kyimyly.wsgi:application --bind 0.0.0.0:8000"
     volumes:
-      - .:/app
-      - static_volume:/app/static
-      - media_volume:/app/media
+      - .:/jashtar-kyimyly
+      - ./back_static:/jashtar-kyimyly/back_static
+      - ./back_media:/jashtar-kyimyly/back_media
+      - ./sqlite_data:/app/sqlite_data
     ports:
       - "8000:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings
     depends_on:
       - db
+    networks:
+      - webnet
 
   db:
     image: postgres:latest
@@ -24,18 +32,31 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - webnet
 
   nginx:
-    build: ./nginx
+    image: nginx:alpine
+    container_name: nginx
+    volumes:
+      - ./etc/nginx.conf:/etc/nginx/nginx.conf
+      - ./back_static:/jashtar-kyimyly/back_static
+      - ./back_media:/jashtar-kyimyly/back_media
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     ports:
       - "80:80"
-    volumes:
-      - static_volume:/app/static
-      - media_volume:/app/media
+      - "443:443"
     depends_on:
       - web
+    networks:
+      - webnet
+
+networks:
+  webnet:
+    driver: bridge
 
 volumes:
   postgres_data:
   static_volume:
   media_volume:
+  sqlite_data:

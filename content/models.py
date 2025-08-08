@@ -126,7 +126,7 @@ class ActivityDirection(models.Model):
 
 class Departments(models.Model):
     title = models.CharField(max_length=255, verbose_name='Название отделения')
-    description = models.TextField() #RichText
+    description = models.TextField(verbose_name='Описание') #RichText
     address = models.CharField(max_length=99, verbose_name='Адрес отделения')
     image = models.ImageField(
         upload_to='experts/',
@@ -144,7 +144,7 @@ class Departments(models.Model):
 
 
 class Results(models.Model):
-    title = models.TextField(verbose_name='Заголовок')
+    title = models.TextField(max_length=255, verbose_name='Заголовок')
     description = models.TextField(verbose_name='Описание') #RichText
 
     def __str__(self):
