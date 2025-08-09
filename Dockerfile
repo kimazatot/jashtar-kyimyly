@@ -1,4 +1,4 @@
-FROM python:3.12
+FROM python:3.10-slim
 
 RUN apt-get update && apt-get install -y \
     gettext \
@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     fonts-dejavu-core \
     && rm -rf /var/lib/apt/lists/*
+
 
 COPY requirements.txt /jashtar-kyimyly/
 

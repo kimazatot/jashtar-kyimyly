@@ -21,6 +21,7 @@ CUSTOM_APPS = [
 
 THIRD_PARTY_APPS = [
     'rest_framework',
+    'rest_framework.authtoken',
     'drf_spectacular',
 ]
 
@@ -47,7 +48,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
 
 ROOT_URLCONF = 'config.urls'
 
@@ -94,6 +101,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'back_static'
+
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
     # BASE_DIR / 'locale_static',
@@ -123,6 +131,25 @@ USE_TZ = True
 USE_L10N = True
 
 
-STATIC_URL = 'static/'
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'kimazatot@gmail.com'
+EMAIL_HOST_PASSWORD = 'zygidtalayrpiygw'
+
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+
+
+CORS_ALLOW_CREDENTIALS = True
